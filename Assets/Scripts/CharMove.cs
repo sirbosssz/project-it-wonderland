@@ -7,7 +7,11 @@ public class CharMove : MonoBehaviour {
 
     // Set Initial values.
     public float speed;
-    public float gravity = -9.8f;
+    public float gravity = -5.8f;
+    public float jumpSpeed = 0.5f;
+    public float terminalVelocity = -1.5f;
+    public float minFall = -0.1f;
+    private float _vertSpeed;
 
     //Use Character controller Component
     private CharacterController _charController;
@@ -15,23 +19,51 @@ public class CharMove : MonoBehaviour {
     // Use this for initialization
     void Start () {
         _charController = GetComponent<CharacterController>();
+        _vertSpeed = minFall;
     }
 	
 	// Update is called once per frame
 	void Update () {
-        if (Input.GetKey("w") || Input.GetKey("a") || Input.GetKey("s") || Input.GetKey("d")) {
+        Vector3 movement = Vector3.zero;
+        if (1==1) {
+            movement = new Vector3(0, 0, 0);
             //Get WASD Input direction.
-            float deltaX = Input.GetAxis("Horizontal") * speed;
-            float deltaZ = Input.GetAxis("Vertical") * speed;
-            //Set Movement for Component
-            Vector3 movement = new Vector3(deltaX, 0, deltaZ);
-            movement = Vector3.ClampMagnitude(movement, speed);
+            if (Input.GetKey("w") || Input.GetKey("a") || Input.GetKey("s") || Input.GetKey("d"))
+            {
+                float deltaX = Input.GetAxis("Horizontal") * speed;
+                float deltaZ = Input.GetAxis("Vertical") * speed;
+                movement = new Vector3(deltaX, 0, deltaZ);
+                movement = Vector3.ClampMagnitude(movement, speed);
+                // Make it valid by gametime.
+                movement *= Time.deltaTime;
+                //Set Movement for Component
+                movement = transform.TransformDirection(movement);
+            }
 
-            //Don't forget we have custom gravity!!!
-            movement.y = gravity;
-            //Make it valid by gametime.
-            movement *= Time.deltaTime;
-            movement = transform.TransformDirection(movement);
+            //JUMP
+            if (_charController.isGrounded)
+            {
+                if (Input.GetKey("space"))
+                {
+                    _vertSpeed = jumpSpeed;
+                    _vertSpeed = _vertSpeed * 0.1f;
+                }
+                else
+                {
+                    _vertSpeed = minFall * 0.1f;
+                }
+            }
+            else
+            {
+                _vertSpeed += gravity * 1 * Time.deltaTime;
+                if (_vertSpeed < terminalVelocity)
+                {
+                    _vertSpeed = terminalVelocity;
+                }
+            }
+            movement.y = _vertSpeed;
+            //
+
             _charController.Move(movement);
         }
 	}

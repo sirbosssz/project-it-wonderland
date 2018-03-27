@@ -25,6 +25,7 @@ GameObject:
   - component: {fileID: 114745857211370160}
   - component: {fileID: 114997011685947798}
   - component: {fileID: 143772766259779118}
+  - component: {fileID: 114100879800187660}
   m_Layer: 0
   m_Name: PlayerTEST
   m_TagString: Player
@@ -162,6 +163,22 @@ AudioListener:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1906297280606750}
   m_Enabled: 1
+--- !u!114 &114100879800187660
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1019735200708384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdb8f03d7005fc640b7cd326e3d010dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  atkStartSwing: 0.3
+  chainTime: 0.8
+  combo: 0
+  nowTime: 0
+  atkSound: {fileID: 0}
 --- !u!114 &114291045260159594
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -207,6 +224,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   gravity: -9.8
+  jumpSpeed: 15
+  terminalVelocity: -10
+  minFall: -1.5
 --- !u!124 &124543871789588658
 Behaviour:
   m_ObjectHideFlags: 1
